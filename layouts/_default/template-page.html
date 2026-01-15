@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Lilly Chin">
+    <link rel="icon" href="/favicon.png" />
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
+
+    {{ $style := resources.Get "style.css" | minify | fingerprint }}
+    {{ $font := resources.Get "fonts.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $style.Permalink }}" />
+    <link rel="stylesheet" href="{{ $font.Permalink }}" />
+    {{ partial "scripts.html" . }}
+  </head>
+
+  <body>
+    <nav class="header" style="display: grid; grid-template-columns: 4fr auto 0.5fr; align-items: center; padding: 0.5em 1em;">
+    
+    <!-- Project Title - larger and bold, in left column -->
+    <div style="font-size: 1.3em; font-weight: bold; color: black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+      {{ .Params.banner_title | default "Project Title" }}
+    </div>
+
+    <!-- Navigation links - in center column, stays fixed -->
+    <ul class="menu" style="display: flex; align-items: center; margin: 0; padding: 0; font-size: 0.5em; white-space: nowrap; gap: 5px;">
+      {{ range .Fragments.Headings }}
+        {{ if or (eq .Level 1) (eq .Level 2) }}
+          <li><a href="#{{ .ID }}" style="padding: 10px 8px;">{{ .Title }}</a></li>
+        {{ end }}
+      {{ end }}
+      <li style="margin-left: 5px; margin-right: 5px; color: #999;">|</li>
+      <li><a href="/resources/class_projects" style="padding: 10px 8px;">Back to Class Projects</a></li>
+    </ul>
+    
+    <!-- Empty right column for balance -->
+    <div></div>
+  </nav>
+  <p></p>
+<h1>{{ .Title | markdownify }}</h1>
+{{ .Params.preamble | markdownify }}
+{{ if .Params.toc }}
+	{{ .TableOfContents }}
+	<center><hr width="90%"></center>
+{{ end }}
+
+{{ .Content }}
+
+{{ partial "footer.html" . }}
+  </body>
+</html>

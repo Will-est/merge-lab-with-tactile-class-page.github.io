@@ -37,6 +37,10 @@ menu:
       url: "resources/career"
       parent: "Resources"
       weight: 4
+    - name: Class Projects
+      url: "resources/class_projects"
+      parent: "Resources"
+      weight: 5
 
 params:
   description: "MERGe Lab website"
